@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class NetworkManager : MonoBehaviourPunCallbacks {
 
@@ -15,7 +15,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     [SerializeField]
     private GameObject progressLabel;
-
 
     void Awake() {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -38,7 +37,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     void CreateRoom() {
         PhotonNetwork.CreateRoom(null, new RoomOptions {
-            MaxPlayers = maxPlayersPerRoom
+            MaxPlayers = maxPlayersPerRoom,
+            IsVisible = true,
+            IsOpen = true,
         });
     }
 
@@ -71,19 +72,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         controlPanel.SetActive(true);
         Debug.LogWarningFormat("NETWORK: OnDisconnected(): cause {0}", cause);
     }
-    public override void OnLeftRoom() {
-        base.OnLeftRoom();
-        progressLabel.SetActive(false);
-        controlPanel.SetActive(true);
-        Debug.Log("NETWORK: OnLeftRoom()");
-    }
 
     public override void OnJoinedRoom() {
-        base.OnJoinedRoom();
-        Debug.Log("NETWORK: OnJoinedRoom()");
+        // move to UI handler
         progressLabel.SetActive(false);
         controlPanel.SetActive(false);
-        // TODO: load scene
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message) {
