@@ -16,10 +16,17 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     [SerializeField]
     private GameObject progressLabel;
 
+    [Tooltip("Play in Online or Offline mode")]
+    [SerializeField]
+    bool _onlineMode = true;
+
     bool _isConnected;
 
     void Awake() {
         PhotonNetwork.AutomaticallySyncScene = true;
+
+        if (!_onlineMode)
+            PhotonNetwork.OfflineMode = true;
     }
 
     void Start() {
@@ -101,4 +108,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         }
     }
 
+    // used only for debugging purposes. Only called from the Debug Button in Lobby Scene
+    public void DebugPlayAloneGame() {
+        progressLabel.SetActive(false);
+        controlPanel.SetActive(false);
+
+        PhotonNetwork.CreateRoom("testRoom", new RoomOptions {
+            MaxPlayers = 1,
+            IsVisible = true,
+            IsOpen = true,
+        });
+    }
 }

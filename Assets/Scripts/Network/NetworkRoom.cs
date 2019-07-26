@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class NetworkRoom : MonoBehaviourPunCallbacks {
 
@@ -12,18 +13,24 @@ public class NetworkRoom : MonoBehaviourPunCallbacks {
     byte _gameSceneIndex = 1;
 
     [SerializeField]
-    GameObject _WaitingForPlayersPanel;
+    GameObject _waitingForPlayersPanel;
 
     [SerializeField]
     Text _playerCountText;
 
     [SerializeField]
-    Button _cancelButton;
+    GameObject _cancelButton;
+
+    private void Start() {
+        _waitingForPlayersPanel.SetActive(false);
+        _cancelButton.SetActive(false);
+    }
 
     private void Update() {
-        if (_cancelWaitingForPlayers)
+        if (_cancelWaitingForPlayers) {
             StopCoroutine("CheckForPlayersInRoom");
-        if (_readyToStartGame) {
+        }
+        if (_readyToStartGame && _inRoom) {
             Debug.Log("READY TO START GAME!!");
             StopCoroutine("CheckForPlayersInRoom");
             this.LoadGameScene();
@@ -33,7 +40,8 @@ public class NetworkRoom : MonoBehaviourPunCallbacks {
     void DisplayWaitingForPlayers() {
         Debug.Log("DisplayWaitingForPlayers()");
         if (_inRoom) {
-            _WaitingForPlayersPanel.SetActive(true);
+            _waitingForPlayersPanel.SetActive(true);
+            _cancelButton.SetActive(true);
             _playerCountText.text = string.Format("( {0} / {1} )", PhotonNetwork.CurrentRoom.PlayerCount, PhotonNetwork.CurrentRoom.MaxPlayers);
         }
     }
@@ -43,10 +51,18 @@ public class NetworkRoom : MonoBehaviourPunCallbacks {
             PhotonNetwork.LoadLevel(_gameSceneIndex);
     }
 
-    void OnCancelButtonPressed() {
-        // TODO: Implement cancel button to call this function
+    void LeaveRoom() {
         _cancelWaitingForPlayers = true;
+        _inRoom = false;
+        _readyToStartGame = false;
+
         PhotonNetwork.LeaveRoom();
+        _waitingForPlayersPanel.SetActive(false);
+        _cancelButton.SetActive(false);
+    }
+
+    public void OnCancelButtonPressed() {
+        this.LeaveRoom();
     }
 
     IEnumerator CheckForPlayersInRoom() {
