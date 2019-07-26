@@ -16,6 +16,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     [SerializeField]
     private GameObject progressLabel;
 
+    bool _isConnected;
+
     void Awake() {
         PhotonNetwork.AutomaticallySyncScene = true;
     }
@@ -23,6 +25,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     void Start() {
         progressLabel.SetActive(false);
         controlPanel.SetActive(true);
+        _isConnected = PhotonNetwork.IsConnected;
         ConnectToMaster();
     }
 
@@ -36,6 +39,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     }
 
     void CreateRoom() {
+        if (!_isConnected)
+            return;
         PhotonNetwork.CreateRoom(null, new RoomOptions {
             MaxPlayers = maxPlayersPerRoom,
             IsVisible = true,
@@ -44,6 +49,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     }
 
     void JoinGame() {
+        if (!_isConnected)
+            return;
         progressLabel.SetActive(true);
         controlPanel.SetActive(false);
         if (PhotonNetwork.IsConnected) {
@@ -64,12 +71,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         Debug.Log("NETWORK: Connected to master");
         progressLabel.SetActive(false);
         controlPanel.SetActive(true);
+        _isConnected = true;
     }
 
     public override void OnDisconnected(DisconnectCause cause) {
         base.OnDisconnected(cause);
         progressLabel.SetActive(false);
         controlPanel.SetActive(true);
+        _isConnected = false;
         Debug.LogWarningFormat("NETWORK: OnDisconnected(): cause {0}", cause);
     }
 
@@ -87,7 +96,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     public override void OnJoinRandomFailed(short returnCode, string message) {
         //base.OnJoinRandomFailed(returnCode, message);
         Debug.LogFormat("NETWORK: OnJoinRandomFailed(): code: {0}, message {1}", returnCode, message);
-        if (returnCode == 32760) {  // 32760 = No room found
+        if (returnCode == 32760 && _isConnected) {  // 32760 = No room found
             this.CreateRoom();
         }
     }
