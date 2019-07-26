@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RampartRemake { 
+namespace Rampart.Remake { 
 
     public class OnEscapeQuit : MonoBehaviour {
 

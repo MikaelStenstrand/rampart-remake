@@ -4,31 +4,34 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(InputField))]
-public class PlayerNameInputField : MonoBehaviour {
+namespace Rampart.Remake {
 
-    const string playerNamePrefKey = "PlayerName";
+    [RequireComponent(typeof(InputField))]
+    public class PlayerNameInputField : MonoBehaviour {
 
-    private InputField _inputField;
+        const string _playerNamePrefKey = "PlayerName";
 
-    void Start() {
-        string defaultName = string.Empty;
-        _inputField = this.GetComponent<InputField>();
+        private InputField _inputField;
 
-        if (_inputField != null) {
-            if (PlayerPrefs.HasKey(playerNamePrefKey)) {
-                defaultName = PlayerPrefs.GetString(playerNamePrefKey);
-                _inputField.text = defaultName;
+        void Start() {
+            string defaultName = string.Empty;
+            _inputField = this.GetComponent<InputField>();
+
+            if (_inputField != null) {
+                if (PlayerPrefs.HasKey(_playerNamePrefKey)) {
+                    defaultName = PlayerPrefs.GetString(_playerNamePrefKey);
+                    _inputField.text = defaultName;
+                }
             }
+            this.SetPlayerName(defaultName);
         }
-        this.SetPlayerName(defaultName);
-    }
 
-    public void SetPlayerName(string playerName) {
-        if (string.IsNullOrEmpty(playerName))
-            return;
-        PhotonNetwork.NickName = playerName;
-        PlayerPrefs.SetString(playerNamePrefKey, playerName);
-    }
+        public void SetPlayerName(string playerName) {
+            if (string.IsNullOrEmpty(playerName))
+                return;
+            PhotonNetwork.NickName = playerName;
+            PlayerPrefs.SetString(_playerNamePrefKey, playerName);
+        }
 
+    }
 }

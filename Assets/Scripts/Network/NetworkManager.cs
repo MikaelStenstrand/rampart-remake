@@ -2,118 +2,121 @@
 using Photon.Realtime;
 using UnityEngine;
 
-public class NetworkManager : MonoBehaviourPunCallbacks {
+namespace Rampart.Remake {
 
-    [SerializeField]
-    private byte maxPlayersPerRoom = 2;
+    public class NetworkManager : MonoBehaviourPunCallbacks {
 
-    [SerializeField]
-    private GameObject controlPanel;
+        [SerializeField]
+        byte _maxPlayersPerRoom = 2;
 
-    [SerializeField]
-    private GameObject progressLabel;
+        [SerializeField]
+        GameObject _controlPanel;
 
-    [Tooltip("Play in Online or Offline mode")]
-    [SerializeField]
-    bool _onlineMode = true;
+        [SerializeField]
+        GameObject _progressLabel;
 
-    bool _isConnected;
+        [Tooltip("Play in Online or Offline mode")]
+        [SerializeField]
+        bool _onlineMode = true;
 
-    void Awake() {
-        PhotonNetwork.AutomaticallySyncScene = true;
+        bool _isConnected;
 
-        if (!_onlineMode)
-            PhotonNetwork.OfflineMode = true;
-    }
+        void Awake() {
+            PhotonNetwork.AutomaticallySyncScene = true;
 
-    void Start() {
-        progressLabel.SetActive(false);
-        controlPanel.SetActive(true);
-        _isConnected = PhotonNetwork.IsConnected;
-        ConnectToMaster();
-    }
-
-    void ConnectToMaster() {
-        progressLabel.SetActive(true);
-        controlPanel.SetActive(false);
-
-        if (!PhotonNetwork.IsConnected) {
-            PhotonNetwork.ConnectUsingSettings();
+            if (!_onlineMode)
+                PhotonNetwork.OfflineMode = true;
         }
-    }
 
-    void CreateRoom() {
-        if (!_isConnected)
-            return;
-        PhotonNetwork.CreateRoom(null, new RoomOptions {
-            MaxPlayers = maxPlayersPerRoom,
-            IsVisible = true,
-            IsOpen = true,
-        });
-    }
-
-    void JoinGame() {
-        if (!_isConnected)
-            return;
-        progressLabel.SetActive(true);
-        controlPanel.SetActive(false);
-        if (PhotonNetwork.IsConnected) {
-            Debug.Log("JoinGame");
-            PhotonNetwork.JoinRandomRoom();
-        } else {
-            this.ConnectToMaster();
+        void Start() {
+            _progressLabel.SetActive(false);
+            _controlPanel.SetActive(true);
+            _isConnected = PhotonNetwork.IsConnected;
+            ConnectToMaster();
         }
-    }
 
-    public void OnJoinGameButtonPressed() {
-        Debug.Log("OnJoinGameButtonPressed");
-        this.JoinGame();
-    }
+        void ConnectToMaster() {
+            _progressLabel.SetActive(true);
+            _controlPanel.SetActive(false);
 
-    public override void OnConnectedToMaster() {
-        base.OnConnectedToMaster();
-        Debug.Log("NETWORK: Connected to master");
-        progressLabel.SetActive(false);
-        controlPanel.SetActive(true);
-        _isConnected = true;
-    }
-
-    public override void OnDisconnected(DisconnectCause cause) {
-        base.OnDisconnected(cause);
-        progressLabel.SetActive(false);
-        controlPanel.SetActive(true);
-        _isConnected = false;
-        Debug.LogWarningFormat("NETWORK: OnDisconnected(): cause {0}", cause);
-    }
-
-    public override void OnJoinedRoom() {
-        // move to UI handler
-        progressLabel.SetActive(false);
-        controlPanel.SetActive(false);
-    }
-
-    public override void OnCreateRoomFailed(short returnCode, string message) {
-        base.OnCreateRoomFailed(returnCode, message);
-        Debug.LogFormat("NETWORK: OnCreatedRoomFailed(): code: {0}, message {1}", returnCode, message);
-    }
-
-    public override void OnJoinRandomFailed(short returnCode, string message) {
-        //base.OnJoinRandomFailed(returnCode, message);
-        Debug.LogFormat("NETWORK: OnJoinRandomFailed(): code: {0}, message {1}", returnCode, message);
-        if (returnCode == 32760 && _isConnected) {  // 32760 = No room found
-            this.CreateRoom();
+            if (!PhotonNetwork.IsConnected) {
+                PhotonNetwork.ConnectUsingSettings();
+            }
         }
-    }
 
-    // used only for debugging purposes. Only called from the Debug Button in Lobby Scene
-    public void DebugPlayAloneGame() {
-        progressLabel.SetActive(false);
-        controlPanel.SetActive(false);
+        void CreateRoom() {
+            if (!_isConnected)
+                return;
+            PhotonNetwork.CreateRoom(null, new RoomOptions {
+                MaxPlayers = _maxPlayersPerRoom,
+                IsVisible = true,
+                IsOpen = true,
+            });
+        }
 
-        PhotonNetwork.CreateRoom("testRoom", new RoomOptions {
-            MaxPlayers = 1,
-            IsVisible = true,
-            IsOpen = true,
-        });
+        void JoinGame() {
+            if (!_isConnected)
+                return;
+            _progressLabel.SetActive(true);
+            _controlPanel.SetActive(false);
+            if (PhotonNetwork.IsConnected) {
+                Debug.Log("JoinGame");
+                PhotonNetwork.JoinRandomRoom();
+            } else {
+                this.ConnectToMaster();
+            }
+        }
+
+        public void OnJoinGameButtonPressed() {
+            Debug.Log("OnJoinGameButtonPressed");
+            this.JoinGame();
+        }
+
+        public override void OnConnectedToMaster() {
+            base.OnConnectedToMaster();
+            Debug.Log("NETWORK: Connected to master");
+            _progressLabel.SetActive(false);
+            _controlPanel.SetActive(true);
+            _isConnected = true;
+        }
+
+        public override void OnDisconnected(DisconnectCause cause) {
+            base.OnDisconnected(cause);
+            _progressLabel.SetActive(false);
+            _controlPanel.SetActive(true);
+            _isConnected = false;
+            Debug.LogWarningFormat("NETWORK: OnDisconnected(): cause {0}", cause);
+        }
+
+        public override void OnJoinedRoom() {
+            // move to UI handler
+            _progressLabel.SetActive(false);
+            _controlPanel.SetActive(false);
+        }
+
+        public override void OnCreateRoomFailed(short returnCode, string message) {
+            base.OnCreateRoomFailed(returnCode, message);
+            Debug.LogFormat("NETWORK: OnCreatedRoomFailed(): code: {0}, message {1}", returnCode, message);
+        }
+
+        public override void OnJoinRandomFailed(short returnCode, string message) {
+            //base.OnJoinRandomFailed(returnCode, message);
+            Debug.LogFormat("NETWORK: OnJoinRandomFailed(): code: {0}, message {1}", returnCode, message);
+            if (returnCode == 32760 && _isConnected) {  // 32760 = No room found
+                this.CreateRoom();
+            }
+        }
+
+        // used only for debugging purposes. Only called from the Debug Button in Lobby Scene
+        public void DebugPlayAloneGame() {
+            _progressLabel.SetActive(false);
+            _controlPanel.SetActive(false);
+
+            PhotonNetwork.CreateRoom("testRoom", new RoomOptions {
+                MaxPlayers = 1,
+                IsVisible = true,
+                IsOpen = true,
+            });
+        }
     }
 }

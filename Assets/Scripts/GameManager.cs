@@ -3,27 +3,23 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace RampartRemake {
+namespace Rampart.Remake {
 
 
     public class GameManager : MonoBehaviourPunCallbacks {
 
         #region Singelton
-        public static GameManager instance;
+        public static GameManager _instance;
 
         void Awake() {
-            if (instance == null) {
-                instance = this;
+            if (_instance == null) {
+                _instance = this;
             } else {
                 Debug.LogWarning("More than one instance of GameManager exists!");
                 return;
             }
         }
         #endregion Singelton
-
-        void Start() {
-            
-        }
 
         void Update() {
             if (Input.GetKeyDown(KeyCode.Escape)) {
