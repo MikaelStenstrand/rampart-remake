@@ -1,10 +1,14 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 [RequireComponent(typeof(GridLayout))]
 public class GroundPlacementController : MonoBehaviour {
 
     [SerializeField]
     GameObject _placeableObjectPrefab;
+
+    [SerializeField]
+    string _placeableObjectFilename;
 
     [SerializeField]
     KeyCode _newObjectHotkey = KeyCode.N;
@@ -15,9 +19,11 @@ public class GroundPlacementController : MonoBehaviour {
     [SerializeField]
     LayerMask _environmentLayerMask;
 
+    const string _prefabFolderPath = "Prefabs/GroundPlaceableObjects/";
     GameObject _currentPlaceableObject;
     float _currentObjectRotation = 0;
     GridLayout _gridLayout;
+    Vector3 _coordinateOfCell;
 
     void Awake() {
         _gridLayout = GetComponent<GridLayout>();
@@ -28,17 +34,28 @@ public class GroundPlacementController : MonoBehaviour {
         if (_currentPlaceableObject != null) {
             MoveCurrentPlaceableObjectToMouse();
             RotateCurrentPlaceableObject();
-            ReleaseIfClicked();
+            PlaceObjectInWorld();
         }
     }
 
-    private void ReleaseIfClicked() {
+    private void PlaceObjectInWorld() {
         if (Input.GetMouseButtonDown(0)) {
+            // destory local GO
+            Destroy(_currentPlaceableObject);
             _currentPlaceableObject = null;
+
+            // Instantiate GO over network at correct position
+            PhotonNetwork.Instantiate(this.GetPathOfObject(), _coordinateOfCell, Quaternion.Euler(0, _currentObjectRotation, 0));
+
+            _currentObjectRotation = 0;
         }
     }
 
-    private void RotateCurrentPlaceableObject() {
+    string GetPathOfObject() {
+        return _prefabFolderPath + _placeableObjectFilename;
+    }
+
+    void RotateCurrentPlaceableObject() {
         if (Input.GetKeyDown(_rotateHotkey)) {
             AddRotation(90);
         }
@@ -56,8 +73,8 @@ public class GroundPlacementController : MonoBehaviour {
 
         RaycastHit hitInfo;
         if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, _environmentLayerMask)) {
-            Vector3Int coordinateOfCell = _gridLayout.WorldToCell(hitInfo.point);
-            _currentPlaceableObject.transform.position = _gridLayout.CellToWorld(coordinateOfCell);
+            _coordinateOfCell = _gridLayout.CellToWorld(_gridLayout.WorldToCell(hitInfo.point));
+            _currentPlaceableObject.transform.position = _coordinateOfCell;
             _currentPlaceableObject.transform.rotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal);
             _currentPlaceableObject.transform.Rotate(Vector3.up, _currentObjectRotation);
         }
@@ -66,6 +83,7 @@ public class GroundPlacementController : MonoBehaviour {
     void HandleNewObjectHotkey() {
         if (Input.GetKeyDown(_newObjectHotkey))  {
             if (_currentPlaceableObject == null) {
+                // Instantiate locally
                 _currentPlaceableObject = Instantiate(_placeableObjectPrefab);
             } else {
                 Destroy(_currentPlaceableObject);

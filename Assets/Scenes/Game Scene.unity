@@ -672,6 +672,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _placeableObjectPrefab: {fileID: 9143197888181807508, guid: 848d42afcc1354bc1890d99072784fbd,
     type: 3}
+  _placeableObjectFilename: DebugPlaceableObject-LShape
   _newObjectHotkey: 110
   _rotateHotkey: 114
   _environmentLayerMask:
