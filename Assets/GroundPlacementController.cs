@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(GridLayout))]
 public class GroundPlacementController : MonoBehaviour {
 
     [SerializeField]
@@ -15,7 +16,12 @@ public class GroundPlacementController : MonoBehaviour {
     LayerMask _environmentLayerMask;
 
     GameObject _currentPlaceableObject;
-    float _currentRotation = 0;
+    float _currentObjectRotation = 0;
+    GridLayout _gridLayout;
+
+    void Awake() {
+        _gridLayout = GetComponent<GridLayout>();
+    }
 
     void Update() {
         HandleNewObjectHotkey();
@@ -39,9 +45,9 @@ public class GroundPlacementController : MonoBehaviour {
     }
 
     void AddRotation(float degrees) {
-        _currentRotation += degrees;
-        if (_currentRotation >= 360) {
-            _currentRotation = 0;
+        _currentObjectRotation += degrees;
+        if (_currentObjectRotation >= 360) {
+            _currentObjectRotation = 0;
         }
     }
 
@@ -50,10 +56,10 @@ public class GroundPlacementController : MonoBehaviour {
 
         RaycastHit hitInfo;
         if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, _environmentLayerMask)) {
-            _currentPlaceableObject.transform.position = hitInfo.point;
+            Vector3Int coordinateOfCell = _gridLayout.WorldToCell(hitInfo.point);
+            _currentPlaceableObject.transform.position = _gridLayout.CellToWorld(coordinateOfCell);
             _currentPlaceableObject.transform.rotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal);
-            _currentPlaceableObject.transform.Rotate(Vector3.up, _currentRotation);
-
+            _currentPlaceableObject.transform.Rotate(Vector3.up, _currentObjectRotation);
         }
     }
 
