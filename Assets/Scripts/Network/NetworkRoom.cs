@@ -21,6 +21,8 @@ namespace Rampart.Remake {
         [SerializeField]
         GameObject _cancelButton;
 
+        public PlayerSettings _playerSettings;
+
         void Start() {
             _waitingForPlayersPanel.SetActive(false);
             _cancelButton.SetActive(false);
@@ -47,6 +49,7 @@ namespace Rampart.Remake {
         }
 
         void LoadGameScene() {
+            _playerSettings.SetPlayerColor(PhotonNetwork.LocalPlayer.ActorNumber);
             if (PhotonNetwork.IsMasterClient)
                 PhotonNetwork.LoadLevel(_gameSceneIndex);
         }

@@ -207,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd013b92504343e3b1f4540bb771f64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enableScreenPan: 0
   _panSpeed: 20
   _scrollSpeed: 20
   _panBorderThickness: 10
@@ -696,6 +697,8 @@ MonoBehaviour:
   _environmentLayerMask:
     serializedVersion: 2
     m_Bits: 512
+  _playerSettings: {fileID: 11400000, guid: aa1b7fc94df664a9a9c729abf4e67ba5, type: 2}
+  material: {fileID: 2100000, guid: b538241c91ae44eef9af9faf8fbc5794, type: 2}
 --- !u!156049354 &1894274260
 Grid:
   m_ObjectHideFlags: 0

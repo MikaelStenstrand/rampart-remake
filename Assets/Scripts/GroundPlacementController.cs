@@ -19,6 +19,9 @@ public class GroundPlacementController : MonoBehaviour {
     [SerializeField]
     LayerMask _environmentLayerMask;
 
+    [SerializeField]
+    PlayerSettings _playerSettings;
+
     const string _prefabFolderPath = "Prefabs/GroundPlaceableObjects/";
     GameObject _currentPlaceableObject;
     float _currentObjectRotation = 0;
@@ -38,14 +41,14 @@ public class GroundPlacementController : MonoBehaviour {
         }
     }
 
-    private void PlaceObjectInWorld() {
+    void PlaceObjectInWorld() {
         if (Input.GetMouseButtonDown(0)) {
             // destory local GO
             Destroy(_currentPlaceableObject);
             _currentPlaceableObject = null;
 
-            // Instantiate GO over network at correct position
-            PhotonNetwork.Instantiate(this.GetPathOfObject(), _coordinateOfCell, Quaternion.Euler(0, _currentObjectRotation, 0));
+            // Instantiate network GO
+            GameObject placedGO = this.InstantiateNetworkGO();
 
             _currentObjectRotation = 0;
         }
@@ -53,6 +56,34 @@ public class GroundPlacementController : MonoBehaviour {
 
     string GetPathOfObject() {
         return _prefabFolderPath + _placeableObjectFilename;
+    }
+
+    /*
+     * Expects the Game Object to have the following sturcutre
+     * GAME OBJECT
+     * - objects
+     * -- ColorModifiedObjects (objects' color within this group will be changed)
+     * -- etc.
+     * -- etc.
+     */
+    void ChangeObjectColorToPlayerColor(GameObject GO) {
+        Component[] renderers = GO.transform.GetChild(0).GetChild(0).gameObject.GetComponentsInChildren<MeshRenderer>();
+        foreach (MeshRenderer renderer in renderers) {
+            Color color = (Color)_playerSettings.GetLocalPlayerColor();
+            renderer.material.color = color;
+        }
+    }
+
+    GameObject InstantiateLocalGO() {
+        GameObject GO = Instantiate(_placeableObjectPrefab);
+        this.ChangeObjectColorToPlayerColor(GO);
+        return GO;
+    }
+
+    GameObject InstantiateNetworkGO() {
+        GameObject GO = PhotonNetwork.Instantiate(this.GetPathOfObject(), _coordinateOfCell, Quaternion.Euler(0, _currentObjectRotation, 0));
+        this.ChangeObjectColorToPlayerColor(GO);
+        return GO;
     }
 
     void RotateCurrentPlaceableObject() {
@@ -83,8 +114,7 @@ public class GroundPlacementController : MonoBehaviour {
     void HandleNewObjectHotkey() {
         if (Input.GetKeyDown(_newObjectHotkey))  {
             if (_currentPlaceableObject == null) {
-                // Instantiate locally
-                _currentPlaceableObject = Instantiate(_placeableObjectPrefab);
+                _currentPlaceableObject = InstantiateLocalGO();
             } else {
                 Destroy(_currentPlaceableObject);
             }

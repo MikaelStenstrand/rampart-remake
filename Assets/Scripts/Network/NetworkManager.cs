@@ -100,7 +100,7 @@ namespace Rampart.Remake {
         }
 
         public override void OnJoinRandomFailed(short returnCode, string message) {
-            //base.OnJoinRandomFailed(returnCode, message);
+            base.OnJoinRandomFailed(returnCode, message);
             Debug.LogFormat("NETWORK: OnJoinRandomFailed(): code: {0}, message {1}", returnCode, message);
             if (returnCode == 32760 && _isConnected) {  // 32760 = No room found
                 this.CreateRoom();
