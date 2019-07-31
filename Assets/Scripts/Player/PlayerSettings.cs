@@ -12,6 +12,8 @@ public class PlayerSettings : ScriptableObject {
     string _localPlayerColor;
 
     const string _playerColorPropertyKey = "PlayerColor";
+    Color _fallbackColor = Color.black;
+
 
     void StorePlayerColorOverNetwork(string colorHex) {
         Hashtable playerColor = new Hashtable {
@@ -20,21 +22,42 @@ public class PlayerSettings : ScriptableObject {
         PhotonNetwork.SetPlayerCustomProperties(playerColor);
     }
 
+
+
     public Color GetLocalPlayerColor() {
         Color playerColor;
         if (! string.IsNullOrEmpty(_localPlayerColor)) {
             ColorUtility.TryParseHtmlString(_localPlayerColor, out playerColor);
-            Debug.Log("player color stored locally: " + playerColor);
         } else {
             string colorHex = (string)PhotonNetwork.LocalPlayer.CustomProperties[_playerColorPropertyKey];
             if (! string.IsNullOrEmpty(colorHex)) {
                 _localPlayerColor = colorHex;
                 ColorUtility.TryParseHtmlString(colorHex, out playerColor);
-                Debug.Log("player color fetched from network: " + playerColor);
             } else {
-                playerColor = Color.black;
-                Debug.LogWarning("No player color set, using fallback color: " + playerColor);
+                playerColor = _fallbackColor;
             }
+        }
+        return playerColor;
+    }
+
+    public Color GetPlayerColor(Photon.Realtime.Player player) {
+        Color playerColor = _fallbackColor;
+        string colorHex = (string)player.CustomProperties[_playerColorPropertyKey];
+        if (!string.IsNullOrEmpty(colorHex)) {
+            ColorUtility.TryParseHtmlString(colorHex, out playerColor);
+        } else {
+            playerColor = this.GetPlayerColor(player.ActorNumber);
+        }
+        return playerColor;
+    }
+
+    public Color GetPlayerColor(int playerNumber) {
+        Color playerColor = _fallbackColor;
+        int colorIndex = playerNumber - 1;
+        if (playerNumber >= 0 && playerNumber < _playerColors.Length) {
+            string colorHex = _playerColors[colorIndex];
+            if (! string.IsNullOrEmpty(colorHex))
+                ColorUtility.TryParseHtmlString(colorHex, out playerColor);
         }
         return playerColor;
     }

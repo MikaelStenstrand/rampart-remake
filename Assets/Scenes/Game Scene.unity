@@ -689,8 +689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57202e02e8a074f27b04d517eddcd156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _placeableObjectPrefab: {fileID: 9143197888181807508, guid: 848d42afcc1354bc1890d99072784fbd,
-    type: 3}
+  _placeableObjectPrefab: {fileID: 155, guid: 848d42afcc1354bc1890d99072784fbd, type: 3}
   _placeableObjectFilename: DebugPlaceableObject-LShape
   _newObjectHotkey: 110
   _rotateHotkey: 114
@@ -698,7 +697,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   _playerSettings: {fileID: 11400000, guid: aa1b7fc94df664a9a9c729abf4e67ba5, type: 2}
-  material: {fileID: 2100000, guid: b538241c91ae44eef9af9faf8fbc5794, type: 2}
 --- !u!156049354 &1894274260
 Grid:
   m_ObjectHideFlags: 0

@@ -19,14 +19,12 @@ public class GroundPlacementController : MonoBehaviour {
     [SerializeField]
     LayerMask _environmentLayerMask;
 
-    [SerializeField]
-    PlayerSettings _playerSettings;
-
     const string _prefabFolderPath = "Prefabs/GroundPlaceableObjects/";
     GameObject _currentPlaceableObject;
     float _currentObjectRotation = 0;
     GridLayout _gridLayout;
     Vector3 _coordinateOfCell;
+
 
     void Awake() {
         _gridLayout = GetComponent<GridLayout>();
@@ -48,7 +46,7 @@ public class GroundPlacementController : MonoBehaviour {
             _currentPlaceableObject = null;
 
             // Instantiate network GO
-            GameObject placedGO = this.InstantiateNetworkGO();
+            this.InstantiateNetworkGO();
 
             _currentObjectRotation = 0;
         }
@@ -58,32 +56,21 @@ public class GroundPlacementController : MonoBehaviour {
         return _prefabFolderPath + _placeableObjectFilename;
     }
 
-    /*
-     * Expects the Game Object to have the following sturcutre
-     * GAME OBJECT
-     * - objects
-     * -- ColorModifiedObjects (objects' color within this group will be changed)
-     * -- etc.
-     * -- etc.
-     */
-    void ChangeObjectColorToPlayerColor(GameObject GO) {
-        Component[] renderers = GO.transform.GetChild(0).GetChild(0).gameObject.GetComponentsInChildren<MeshRenderer>();
-        foreach (MeshRenderer renderer in renderers) {
-            Color color = (Color)_playerSettings.GetLocalPlayerColor();
-            renderer.material.color = color;
-        }
-    }
-
     GameObject InstantiateLocalGO() {
         GameObject GO = Instantiate(_placeableObjectPrefab);
-        this.ChangeObjectColorToPlayerColor(GO);
+        GroundPlaceableObject placedObject = GO.GetComponent<GroundPlaceableObject>();
+        if (placedObject != null) {
+            placedObject.ChangeObjectColorToPlayerColor();
+        }
         return GO;
     }
 
-    GameObject InstantiateNetworkGO() {
+    void InstantiateNetworkGO() {
         GameObject GO = PhotonNetwork.Instantiate(this.GetPathOfObject(), _coordinateOfCell, Quaternion.Euler(0, _currentObjectRotation, 0));
-        this.ChangeObjectColorToPlayerColor(GO);
-        return GO;
+        GroundPlaceableObject placedObject = GO.GetComponent<GroundPlaceableObject>();
+        if (placedObject != null) {
+            placedObject.ChangeObjectColorToPlayerColorOverNetwork();
+        }
     }
 
     void RotateCurrentPlaceableObject() {
