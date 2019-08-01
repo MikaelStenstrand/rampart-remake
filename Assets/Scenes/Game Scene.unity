@@ -690,9 +690,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57202e02e8a074f27b04d517eddcd156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _placeableObjectPrefab: {fileID: 155, guid: 848d42afcc1354bc1890d99072784fbd, type: 3}
-  _placeableObjectFilename: DebugPlaceableObject-LShape
-  _newObjectHotkey: 110
+  _placeableObjectPrefabs:
+  - {fileID: 163, guid: 848d42afcc1354bc1890d99072784fbd, type: 3}
+  - {fileID: 162, guid: 2a85ffcebc81d4c3eb1387dd6c08e573, type: 3}
+  _canonPrefab: {fileID: 6257340404976778786, guid: 4a6643d8ab38349809d8069fe720888d,
+    type: 3}
+  _newCanonHotkey: 99
   _rotateHotkey: 114
   _environmentLayerMask:
     serializedVersion: 2
@@ -830,7 +833,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &2032081720
 SpriteRenderer:
   m_ObjectHideFlags: 0

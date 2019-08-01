@@ -5,13 +5,13 @@ using UnityEngine;
 public class GroundPlacementController : MonoBehaviour {
 
     [SerializeField]
-    GameObject _placeableObjectPrefab;
+    GameObject[] _placeableObjectPrefabs;
 
     [SerializeField]
-    string _placeableObjectFilename;
+    GameObject _canonPrefab;
 
     [SerializeField]
-    KeyCode _newObjectHotkey = KeyCode.N;
+    KeyCode _newCanonHotkey = KeyCode.C;
 
     [SerializeField]
     KeyCode _rotateHotkey = KeyCode.R;
@@ -19,8 +19,8 @@ public class GroundPlacementController : MonoBehaviour {
     [SerializeField]
     LayerMask _environmentLayerMask;
 
-    const string _prefabFolderPath = "Prefabs/GroundPlaceableObjects/";
     GameObject _currentPlaceableObject;
+    int _currentPrefabIndex = -1;
     float _currentObjectRotation = 0;
     GridLayout _gridLayout;
     Vector3 _coordinateOfCell;
@@ -31,7 +31,8 @@ public class GroundPlacementController : MonoBehaviour {
     }
 
     void Update() {
-        HandleNewObjectHotkey();
+        HandleNeweCanonInput();
+        HandleNewWallInput();
         if (_currentPlaceableObject != null) {
             MoveCurrentPlaceableObjectToMouse();
             RotateCurrentPlaceableObject();
@@ -46,21 +47,18 @@ public class GroundPlacementController : MonoBehaviour {
                 // destory local GO
                 Destroy(_currentPlaceableObject);
                 _currentPlaceableObject = null;
+                _currentPrefabIndex = -1;
 
                 // Instantiate network GO
-                this.InstantiateNetworkGO();
+                this.InstantiateNetworkGO(currentGroundPlaceableObject.Filename);
 
                 _currentObjectRotation = 0;
             }
         }
     }
 
-    string GetPathOfObject() {
-        return _prefabFolderPath + _placeableObjectFilename;
-    }
-
-    GameObject InstantiateLocalGO() {
-        GameObject GO = Instantiate(_placeableObjectPrefab);
+    GameObject InstantiateLocalGO(GameObject prefab) {
+        GameObject GO = Instantiate(prefab);
         GroundPlaceableObject placedObject = GO.GetComponent<GroundPlaceableObject>();
         if (placedObject != null) {
             placedObject.ChangeObjectColorToPlayerColor();
@@ -68,8 +66,8 @@ public class GroundPlacementController : MonoBehaviour {
         return GO;
     }
 
-    void InstantiateNetworkGO() {
-        GameObject GO = PhotonNetwork.Instantiate(this.GetPathOfObject(), _coordinateOfCell, Quaternion.Euler(0, _currentObjectRotation, 0));
+    void InstantiateNetworkGO(string filename) {
+        GameObject GO = PhotonNetwork.Instantiate(filename, _coordinateOfCell, Quaternion.Euler(0, _currentObjectRotation, 0));
         GroundPlaceableObject placedObject = GO.GetComponent<GroundPlaceableObject>();
         if (placedObject != null) {
             placedObject.ChangeObjectColorToPlayerColorOverNetwork();
@@ -101,13 +99,36 @@ public class GroundPlacementController : MonoBehaviour {
         }
     }
 
-    void HandleNewObjectHotkey() {
-        if (Input.GetKeyDown(_newObjectHotkey))  {
+    void HandleNewWallInput() {
+        for (int i = 0; i < _placeableObjectPrefabs.Length; i++) {
+            if (Input.GetKeyDown(KeyCode.Alpha0 + 1 + i)) {
+                if (PressedKeyOfCurrentPrefab(i)) {
+                    Destroy(_currentPlaceableObject);
+                    _currentPrefabIndex = -1;
+                } else {
+                    if (_currentPlaceableObject != null)
+                        Destroy(_currentPlaceableObject);
+                    _currentPlaceableObject = InstantiateLocalGO(_placeableObjectPrefabs[i]);
+                    _currentPrefabIndex = i;
+                }
+                break;
+            }
+        }
+    }
+
+    void HandleNeweCanonInput() {
+        if (Input.GetKeyDown(_newCanonHotkey)) {
             if (_currentPlaceableObject == null) {
-                _currentPlaceableObject = InstantiateLocalGO();
+                _currentPlaceableObject = InstantiateLocalGO(_canonPrefab);
             } else {
                 Destroy(_currentPlaceableObject);
             }
+
         }
+    }
+
+
+    bool PressedKeyOfCurrentPrefab(int index) {
+        return _currentPlaceableObject != null && _currentPrefabIndex == index;
     }
 }

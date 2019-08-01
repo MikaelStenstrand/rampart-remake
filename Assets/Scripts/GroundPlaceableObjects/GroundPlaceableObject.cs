@@ -6,11 +6,14 @@ public class GroundPlaceableObject : MonoBehaviour {
     [SerializeField]
     PlayerSettings _playerSettings;
 
+    public string Filename;
+
     PhotonView _photonView;
     Color _defaultColor;
 
+    [HideInInspector]
     public bool isPlaceable = true;
-    const string _groundPlaceableObjectTag = "GroundPlaceableObject";
+    static string Tag = "GroundPlaceableObject";
 
     void Awake() {
         _photonView = gameObject.GetComponent<PhotonView>();
@@ -72,12 +75,12 @@ public class GroundPlaceableObject : MonoBehaviour {
     }
 
     void OnTriggerEnter(Collider other) {
-        if (other.tag == _groundPlaceableObjectTag)
+        if (other.tag == Tag)
             this.GOIsNotPlaceable();
     }
 
     void OnTriggerExit(Collider other) {
-        if (other.tag == _groundPlaceableObjectTag)
+        if (other.tag == Tag)
             this.GOIsPlaceable();
     }
 }
