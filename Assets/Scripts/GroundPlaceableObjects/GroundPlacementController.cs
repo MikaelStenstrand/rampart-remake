@@ -41,14 +41,17 @@ public class GroundPlacementController : MonoBehaviour {
 
     void PlaceObjectInWorld() {
         if (Input.GetMouseButtonDown(0)) {
-            // destory local GO
-            Destroy(_currentPlaceableObject);
-            _currentPlaceableObject = null;
+            GroundPlaceableObject currentGroundPlaceableObject = _currentPlaceableObject.GetComponent<GroundPlaceableObject>();
+            if (currentGroundPlaceableObject != null && currentGroundPlaceableObject.isPlaceable == true) {
+                // destory local GO
+                Destroy(_currentPlaceableObject);
+                _currentPlaceableObject = null;
 
-            // Instantiate network GO
-            this.InstantiateNetworkGO();
+                // Instantiate network GO
+                this.InstantiateNetworkGO();
 
-            _currentObjectRotation = 0;
+                _currentObjectRotation = 0;
+            }
         }
     }
 

@@ -696,7 +696,6 @@ MonoBehaviour:
   _environmentLayerMask:
     serializedVersion: 2
     m_Bits: 512
-  _playerSettings: {fileID: 11400000, guid: aa1b7fc94df664a9a9c729abf4e67ba5, type: 2}
 --- !u!156049354 &1894274260
 Grid:
   m_ObjectHideFlags: 0

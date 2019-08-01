@@ -7,9 +7,14 @@ public class GroundPlaceableObject : MonoBehaviour {
     PlayerSettings _playerSettings;
 
     PhotonView _photonView;
+    Color _defaultColor;
+
+    public bool isPlaceable = true;
+    const string _groundPlaceableObjectTag = "GroundPlaceableObject";
 
     void Awake() {
         _photonView = gameObject.GetComponent<PhotonView>();
+        _defaultColor = gameObject.transform.GetChild(0).GetChild(1).gameObject.GetComponentsInChildren<MeshRenderer>()[0].material.color;
     }
 
     /*
@@ -29,7 +34,8 @@ public class GroundPlaceableObject : MonoBehaviour {
     }
 
     public void ChangeObjectColorToPlayerColorOverNetwork() {
-        _photonView.RPC("RPCChangeObjectColorToPlayerColor", RpcTarget.All);
+        if (PhotonNetwork.IsConnected)
+            _photonView.RPC("RPCChangeObjectColorToPlayerColor", RpcTarget.All);
     }
 
     [PunRPC]
@@ -41,5 +47,37 @@ public class GroundPlaceableObject : MonoBehaviour {
         }
     }
 
-    
+    void ChangeToNotPlaceableColor() {
+        Component[] renderers = gameObject.transform.GetChild(0).GetChild(1).gameObject.GetComponentsInChildren<MeshRenderer>();
+        foreach (MeshRenderer renderer in renderers) {
+            renderer.material.color = Color.red;
+        }
+    }
+
+    void ChangeToDefaultColor() {
+        Component[] renderers = gameObject.transform.GetChild(0).GetChild(1).gameObject.GetComponentsInChildren<MeshRenderer>();
+        foreach (MeshRenderer renderer in renderers) {
+            renderer.material.color = _defaultColor;
+        }
+    }
+
+    void GOIsNotPlaceable() {
+        isPlaceable = false;
+        ChangeToNotPlaceableColor();
+    }
+
+    void GOIsPlaceable() {
+        isPlaceable = true;
+        ChangeToDefaultColor();
+    }
+
+    void OnTriggerEnter(Collider other) {
+        if (other.tag == _groundPlaceableObjectTag)
+            this.GOIsNotPlaceable();
+    }
+
+    void OnTriggerExit(Collider other) {
+        if (other.tag == _groundPlaceableObjectTag)
+            this.GOIsPlaceable();
+    }
 }
