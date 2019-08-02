@@ -644,7 +644,6 @@ GameObject:
   - component: {fileID: 1894274258}
   - component: {fileID: 1894274259}
   - component: {fileID: 1894274260}
-  - component: {fileID: 1894274261}
   m_Layer: 0
   m_Name: GameLogic
   m_TagString: Untagged
@@ -691,8 +690,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _placeableObjectPrefabs:
-  - {fileID: 163, guid: 848d42afcc1354bc1890d99072784fbd, type: 3}
   - {fileID: 162, guid: 2a85ffcebc81d4c3eb1387dd6c08e573, type: 3}
+  - {fileID: 163, guid: 0b10a9c3187e6462a8fad10d65f71821, type: 3}
+  - {fileID: 163, guid: 848d42afcc1354bc1890d99072784fbd, type: 3}
+  - {fileID: 163, guid: 923691af9da434054b6ef582c5be1bad, type: 3}
+  - {fileID: 163, guid: 232a9b0551e1c4635a52a8855a9ee264, type: 3}
+  - {fileID: 163, guid: 7a9badbf4643f441790779686cbc2ee0, type: 3}
+  - {fileID: 163, guid: ff8974c10e3314d089e0f285be49299f, type: 3}
   _canonPrefab: {fileID: 6257340404976778786, guid: 4a6643d8ab38349809d8069fe720888d,
     type: 3}
   _newCanonHotkey: 99
@@ -712,18 +716,6 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 1
---- !u!114 &1894274261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1894274256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d23fe5caab02c4ca3b935893e7fa1a0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1950113490
 GameObject:
   m_ObjectHideFlags: 0
