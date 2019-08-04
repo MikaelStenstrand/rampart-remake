@@ -38,8 +38,10 @@ namespace Rampart.Remake {
         void DebugCheckGameModeChangeInput() {
             if (Input.GetKeyDown(_debugChangeGameMode)) {
                 if (this.GetGameMode() == GameMode.BUILD)
+                    this.SetGameMode(GameMode.PLACE_CANNON);
+                else if (this.GetGameMode() == GameMode.PLACE_CANNON)
                     this.SetGameMode(GameMode.ATTACK);
-                else
+                else if (this.GetGameMode() == GameMode.ATTACK)
                     this.SetGameMode(GameMode.BUILD);
             }
         }

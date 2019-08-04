@@ -21,6 +21,9 @@ namespace Rampart.Remake {
         [SerializeField]
         LayerMask _environmentLayerMask;
 
+        [SerializeField]
+        bool _randomizePieces = true;
+
         GameObject _currentPlaceableObject;
         int _currentPrefabIndex = -1;
         float _currentObjectRotation = 0;
@@ -34,14 +37,38 @@ namespace Rampart.Remake {
         }
 
         void Update() {
+            this.MoveRotatePlaceObject();
+
             if (_gameManager.GetGameMode() == GameMode.BUILD) {
-                HandleNeweCanonInput();
-                HandleNewWallInput();
-                if (_currentPlaceableObject != null) {
-                    MoveCurrentPlaceableObjectToMouse();
-                    RotateCurrentPlaceableObject();
-                    PlaceObjectInWorld();
+                if (_randomizePieces) {
+                    if (_currentPlaceableObject == null) {
+                        this.RandomNewWall();
+                        this.MoveCurrentPlaceableObjectToMouse();
+                    }
+                } else {
+                    this.HandleNewWallInput();
                 }
+            } else if (_gameManager.GetGameMode() == GameMode.PLACE_CANNON) {
+                this.HandleNeweCanonInput();
+            } else if (_currentPlaceableObject != null){
+                this.DestroyCurrentPlaceableObject();
+            }
+        }
+
+        void DestroyCurrentPlaceableObject() {
+            if (_currentPlaceableObject != null) {
+                Destroy(_currentPlaceableObject);
+                _currentPlaceableObject = null;
+                _currentPrefabIndex = -1;
+                _currentObjectRotation = 0;
+            }
+        }
+
+        void MoveRotatePlaceObject() {
+            if (_currentPlaceableObject != null) {
+                this.MoveCurrentPlaceableObjectToMouse();
+                this.RotateCurrentPlaceableObject();
+                this.PlaceObjectInWorld();
             }
         }
 
@@ -50,9 +77,7 @@ namespace Rampart.Remake {
                 GroundPlaceableObject currentGroundPlaceableObject = _currentPlaceableObject.GetComponent<GroundPlaceableObject>();
                 if (currentGroundPlaceableObject != null && currentGroundPlaceableObject.isPlaceable == true) {
                     // destory local GO
-                    Destroy(_currentPlaceableObject);
-                    _currentPlaceableObject = null;
-                    _currentPrefabIndex = -1;
+                    this.DestroyCurrentPlaceableObject();
 
                     // Instantiate network GO
                     this.InstantiateNetworkGO(currentGroundPlaceableObject.Filename);
@@ -79,8 +104,14 @@ namespace Rampart.Remake {
             }
         }
 
+        void InstantiateObjectFollowMouse(GameObject GO) {
+            if (_currentPlaceableObject != null)
+                Destroy(_currentPlaceableObject);
+            _currentPlaceableObject = InstantiateLocalGO(GO);
+        }
+
         void RotateCurrentPlaceableObject() {
-            if (Input.GetKeyDown(_rotateHotkey)) {
+            if (Input.GetKeyDown(_rotateHotkey) || Input.GetMouseButtonDown(1)) {
                 AddRotation(90);
             }
         }
@@ -104,6 +135,12 @@ namespace Rampart.Remake {
             }
         }
 
+        void RandomNewWall() {
+            int prefabIndex = (int) Mathf.Ceil(Random.Range(0f, _placeableObjectPrefabs.Length - 1));
+            this.InstantiateObjectFollowMouse(_placeableObjectPrefabs[prefabIndex]);
+        }
+
+
         void HandleNewWallInput() {
             for (int i = 0; i < _placeableObjectPrefabs.Length; i++) {
                 if (Input.GetKeyDown(KeyCode.Alpha0 + 1 + i)) {
@@ -111,10 +148,8 @@ namespace Rampart.Remake {
                         Destroy(_currentPlaceableObject);
                         _currentPrefabIndex = -1;
                     } else {
-                        if (_currentPlaceableObject != null)
-                            Destroy(_currentPlaceableObject);
-                        _currentPlaceableObject = InstantiateLocalGO(_placeableObjectPrefabs[i]);
                         _currentPrefabIndex = i;
+                        this.InstantiateObjectFollowMouse(_placeableObjectPrefabs[_currentPrefabIndex]);
                     }
                     break;
                 }
@@ -128,10 +163,8 @@ namespace Rampart.Remake {
                 } else {
                     Destroy(_currentPlaceableObject);
                 }
-
             }
         }
-
 
         bool PressedKeyOfCurrentPrefab(int index) {
             return _currentPlaceableObject != null && _currentPrefabIndex == index;

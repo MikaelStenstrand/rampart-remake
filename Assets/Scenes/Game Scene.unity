@@ -677,6 +677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a41bfba39ee464bc0b68ed8167dcdfe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _debugChangeGameMode: 103
 --- !u!114 &1894274259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -825,7 +826,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &2032081720
 SpriteRenderer:
   m_ObjectHideFlags: 0
