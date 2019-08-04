@@ -1,69 +1,74 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class CanonProjectile : MonoBehaviour {
+    namespace Rampart.Remake { 
 
-    [SerializeField]
-    Rigidbody _canonProjectilePrefab;
+    public class CanonProjectile : MonoBehaviour {
 
-    [SerializeField]
-    Transform _shootPoint;
+        [SerializeField]
+        Rigidbody _canonProjectilePrefab;
 
-    [SerializeField]
-    LayerMask _layerMask;
+        [SerializeField]
+        Transform _shootPoint;
 
-    [SerializeField]
-    float _canonProjectileTravelTime = 1f;
+        [SerializeField]
+        LayerMask _layerMask;
 
-    Camera _camera;
-    Vector3 _initVelocity;
+        [SerializeField]
+        float _canonProjectileTravelTime = 1f;
 
-    void Start() {
-        _camera = Camera.main;
-    }
+        Camera _camera;
+        Vector3 _initVelocity;
+        GameManager gameManager;
 
-    void Update() {
-        this.AimAtCursor();
+        void Start() {
+            _camera = Camera.main;
+            gameManager = GameManager.instance;
+        }
 
-        if (Input.GetMouseButtonDown(0)) {
-            this.LaunchCanonProjectile();
+        void Update() {
+            if (gameManager.GetGameMode() == GameMode.ATTACK) {
+                this.AimAtCursor();
+
+                if (Input.GetMouseButtonDown(0)) {
+                    this.LaunchCanonProjectile();
+                }
+            }
+
+        }
+
+        void AimAtCursor() {
+            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+
+            RaycastHit hitInfo;
+            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, _layerMask)) {
+                _initVelocity = CalculateVelocity(hitInfo.point, _shootPoint.position, _canonProjectileTravelTime);
+                transform.rotation = Quaternion.LookRotation(_initVelocity);
+            } 
+        }
+
+        void LaunchCanonProjectile() {
+            // TODO: implement network projectile launch
+            Rigidbody canonProjectileGO = Instantiate(_canonProjectilePrefab, _shootPoint.position, Quaternion.identity);
+            canonProjectileGO.velocity = _initVelocity;
+        }
+
+        Vector3 CalculateVelocity(Vector3 target, Vector3 origin, float time) {
+
+            Vector3 distance = target - origin;
+            Vector3 distanceXZ = distance;
+            distanceXZ.y = 0f;
+
+            float Sy = distance.y;
+            float Sxy = distanceXZ.magnitude;
+
+            float Vxz = Sxy / time;
+            float Vy = Sy / time + 0.5f * Mathf.Abs(Physics.gravity.y) * time;
+
+            Vector3 result = distanceXZ.normalized;
+            result *= Vxz;
+            result.y = Vy;
+
+            return result;
         }
     }
-
-    void AimAtCursor() {
-        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-
-        RaycastHit hitInfo;
-        if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, _layerMask)) {
-            _initVelocity = CalculateVelocity(hitInfo.point, _shootPoint.position, _canonProjectileTravelTime);
-            transform.rotation = Quaternion.LookRotation(_initVelocity);
-        } 
-    }
-
-    void LaunchCanonProjectile() {
-        Rigidbody canonProjectileGO = Instantiate(_canonProjectilePrefab, _shootPoint.position, Quaternion.identity);
-        canonProjectileGO.velocity = _initVelocity;
-    }
-
-    Vector3 CalculateVelocity(Vector3 target, Vector3 origin, float time) {
-
-        Vector3 distance = target - origin;
-        Vector3 distanceXZ = distance;
-        distanceXZ.y = 0f;
-
-        float Sy = distance.y;
-        float Sxy = distanceXZ.magnitude;
-
-        float Vxz = Sxy / time;
-        float Vy = Sy / time + 0.5f * Mathf.Abs(Physics.gravity.y) * time;
-
-        Vector3 result = distanceXZ.normalized;
-        result *= Vxz;
-        result.y = Vy;
-
-        return result;
-    }
-
-
 }

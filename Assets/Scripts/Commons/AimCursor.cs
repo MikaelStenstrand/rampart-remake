@@ -1,34 +1,55 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
-public class AimCursor : MonoBehaviour {
+namespace Rampart.Remake { 
 
-    [SerializeField]
-    LayerMask _layerMask;
+    [RequireComponent(typeof(SpriteRenderer))]
+    public class AimCursor : MonoBehaviour {
 
-    [SerializeField]
-    float _cursorUpModifier = 0.1f;
+        [SerializeField]
+        LayerMask _layerMask;
 
-    Camera _camera;
+        [SerializeField]
+        float _cursorUpModifier = 0.1f;
 
-    void Start() {
-        _camera = Camera.main;
-    }
+        Camera _camera;
+        Rampart.Remake.GameManager _gameManager;
+        SpriteRenderer _spriteRenderer;
 
-    void Update() {
-        AimSpirteAtCursor();
-    }
+        void Start() {
+            _camera = Camera.main;
+            _gameManager = GameManager.instance;
+            _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        }
 
-    void AimSpirteAtCursor() {
-        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+        void Update() {
+            if (_gameManager.GetGameMode() == GameMode.ATTACK) {
+                this.AimSpirteAtCursor();
+            } else {
+                this.HideCursor();
+            }
+        }
 
-        RaycastHit hitInfo;
-        if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, _layerMask)) {
-            gameObject.SetActive(true);
-            gameObject.transform.position = hitInfo.point + Vector3.up * _cursorUpModifier;
-        } else {
-            gameObject.SetActive(false);
+        void HideCursor() {
+            if (_spriteRenderer.isVisible)
+                _spriteRenderer.enabled = false;
+        }
+
+        void AimSpirteAtCursor() {
+            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+
+            RaycastHit hitInfo;
+            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, _layerMask)) {
+                this.ShowCursor();
+                gameObject.transform.position = hitInfo.point + Vector3.up * _cursorUpModifier;
+            } else {
+                this.HideCursor();
+            }
+        }
+
+        void ShowCursor() {
+            if (!_spriteRenderer.isVisible)
+                _spriteRenderer.enabled = true;
         }
     }
 }
