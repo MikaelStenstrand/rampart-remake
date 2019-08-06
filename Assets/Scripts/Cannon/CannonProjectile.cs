@@ -5,7 +5,7 @@
     public class CannonProjectile : MonoBehaviour {
 
         [SerializeField]
-        Rigidbody _canonProjectilePrefab;
+        Rigidbody _cannonProjectilePrefab;
 
         [SerializeField]
         Transform _shootPoint;
@@ -14,7 +14,7 @@
         LayerMask _layerMask;
 
         [SerializeField]
-        float _canonProjectileTravelTime = 1f;
+        float _cannonProjectileTravelTime = 1f;
 
         Camera _camera;
         Vector3 _initVelocity;
@@ -30,7 +30,7 @@
                 this.AimAtCursor();
 
                 if (Input.GetMouseButtonDown(0)) {
-                    this.LaunchCanonProjectile();
+                    this.LaunchCannonProjectile();
                 }
             }
 
@@ -41,15 +41,15 @@
 
             RaycastHit hitInfo;
             if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, _layerMask)) {
-                _initVelocity = CalculateVelocity(hitInfo.point, _shootPoint.position, _canonProjectileTravelTime);
+                _initVelocity = CalculateVelocity(hitInfo.point, _shootPoint.position, _cannonProjectileTravelTime);
                 transform.rotation = Quaternion.LookRotation(_initVelocity);
             } 
         }
 
-        void LaunchCanonProjectile() {
+        void LaunchCannonProjectile() {
             // TODO: implement network projectile launch
-            Rigidbody canonProjectileGO = Instantiate(_canonProjectilePrefab, _shootPoint.position, Quaternion.identity);
-            canonProjectileGO.velocity = _initVelocity;
+            Rigidbody cannonProjectileGO = Instantiate(_cannonProjectilePrefab, _shootPoint.position, Quaternion.identity);
+            cannonProjectileGO.velocity = _initVelocity;
         }
 
         Vector3 CalculateVelocity(Vector3 target, Vector3 origin, float time) {

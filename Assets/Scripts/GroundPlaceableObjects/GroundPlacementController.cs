@@ -10,10 +10,10 @@ namespace Rampart.Remake {
         GameObject[] _placeableObjectPrefabs;
 
         [SerializeField]
-        GameObject _canonPrefab;
+        GameObject _cannonPrefab;
 
         [SerializeField]
-        KeyCode _newCanonHotkey = KeyCode.C;
+        KeyCode _newCannonHotkey = KeyCode.C;
 
         [SerializeField]
         KeyCode _rotateHotkey = KeyCode.R;
@@ -49,7 +49,7 @@ namespace Rampart.Remake {
                     this.HandleNewWallInput();
                 }
             } else if (_gameManager.GetGameMode() == GameMode.PLACE_CANNON) {
-                this.HandleNeweCanonInput();
+                this.HandleNeweCannonInput();
             } else if (_currentPlaceableObject != null){
                 this.DestroyCurrentPlaceableObject();
             }
@@ -156,10 +156,10 @@ namespace Rampart.Remake {
             }
         }
 
-        void HandleNeweCanonInput() {
-            if (Input.GetKeyDown(_newCanonHotkey)) {
+        void HandleNeweCannonInput() {
+            if (Input.GetKeyDown(_newCannonHotkey)) {
                 if (_currentPlaceableObject == null) {
-                    _currentPlaceableObject = InstantiateLocalGO(_canonPrefab);
+                    _currentPlaceableObject = InstantiateLocalGO(_cannonPrefab);
                 } else {
                     Destroy(_currentPlaceableObject);
                 }
