@@ -31,8 +31,10 @@ namespace Rampart.Remake {
             if (PhotonNetwork.IsConnected && PhotonNetwork.InRoom) {
                 _connectedTextUI.text = PhotonNetwork.IsConnected.ToString();
                 Photon.Realtime.Player[] players = PhotonNetwork.PlayerList;
-                _player1TextUI.text = players[0].NickName;
-                _player2TextUI.text = players[1].NickName;
+                if (players.Length >= 2) {
+                    _player1TextUI.text = players[0].NickName;
+                    _player2TextUI.text = players[1].NickName;
+                }
             } else {
                 _connectedTextUI.text = PhotonNetwork.IsConnected.ToString();
             }
