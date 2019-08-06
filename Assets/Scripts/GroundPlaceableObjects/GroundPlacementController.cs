@@ -29,7 +29,8 @@ namespace Rampart.Remake {
         float _currentObjectRotation = 0;
         GridLayout _gridLayout;
         Vector3 _coordinateOfCell;
-        GameManager _gameManager;    
+        GameManager _gameManager;
+        bool _debugDestroyGOInPlaceCannonMode = false;
 
         void Awake() {
             _gridLayout = GetComponent<GridLayout>();
@@ -37,22 +38,26 @@ namespace Rampart.Remake {
         }
 
         void Update() {
-            this.MoveRotatePlaceObject();
-
             if (_gameManager.GetGameMode() == GameMode.BUILD) {
+                _debugDestroyGOInPlaceCannonMode = true;
                 if (_randomizePieces) {
                     if (_currentPlaceableObject == null) {
                         this.RandomNewWall();
-                        this.MoveCurrentPlaceableObjectToMouse();
                     }
                 } else {
                     this.HandleNewWallInput();
                 }
             } else if (_gameManager.GetGameMode() == GameMode.PLACE_CANNON) {
-                this.HandleNeweCannonInput();
+                if (_debugDestroyGOInPlaceCannonMode) {
+                    this.DestroyCurrentPlaceableObject();
+                    _debugDestroyGOInPlaceCannonMode = false;
+                }
+                this.NewCannon();
             } else if (_currentPlaceableObject != null){
                 this.DestroyCurrentPlaceableObject();
             }
+
+            this.MoveRotatePlaceObject();
         }
 
         void DestroyCurrentPlaceableObject() {
@@ -156,13 +161,9 @@ namespace Rampart.Remake {
             }
         }
 
-        void HandleNeweCannonInput() {
-            if (Input.GetKeyDown(_newCannonHotkey)) {
-                if (_currentPlaceableObject == null) {
-                    _currentPlaceableObject = InstantiateLocalGO(_cannonPrefab);
-                } else {
-                    Destroy(_currentPlaceableObject);
-                }
+        void NewCannon() {
+            if (_currentPlaceableObject == null) {
+                _currentPlaceableObject = InstantiateLocalGO(_cannonPrefab);
             }
         }
 
