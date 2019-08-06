@@ -198,7 +198,7 @@ GameObject:
   - component: {fileID: 4555652083187114105}
   - component: {fileID: 3672674205721669080}
   m_Layer: 0
-  m_Name: Canon
+  m_Name: Cannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerSettings: {fileID: 11400000, guid: aa1b7fc94df664a9a9c729abf4e67ba5, type: 2}
-  Filename: Prefabs/GroundPlaceableObjects/Canon/Canon
+  Filename: Prefabs/GroundPlaceableObjects/Cannon/Cannon
   isPlaceable: 1
 --- !u!114 &4555652083187114105
 MonoBehaviour:

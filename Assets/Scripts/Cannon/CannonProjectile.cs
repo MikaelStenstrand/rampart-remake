@@ -2,7 +2,7 @@
 
     namespace Rampart.Remake { 
 
-    public class CanonProjectile : MonoBehaviour {
+    public class CannonProjectile : MonoBehaviour {
 
         [SerializeField]
         Rigidbody _canonProjectilePrefab;
