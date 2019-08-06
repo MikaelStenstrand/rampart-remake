@@ -232,13 +232,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8df77a899d202432782bb671c9ea6642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canonProjectilePrefab: {fileID: 5455187532760127899, guid: 2568094357c854f8b87a27073bbd19f6,
+  _cannonProjectilePrefab: {fileID: 5455187532760127899, guid: 2568094357c854f8b87a27073bbd19f6,
     type: 3}
   _shootPoint: {fileID: 6257340404803186892}
   _layerMask:
     serializedVersion: 2
     m_Bits: 512
-  _canonProjectileTravelTime: 1
+  _cannonProjectileTravelTime: 1.5
 --- !u!114 &4580460880618928109
 MonoBehaviour:
   m_ObjectHideFlags: 0
