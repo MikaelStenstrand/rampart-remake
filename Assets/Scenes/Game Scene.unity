@@ -960,9 +960,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'R - Rotate
 
-    G - Game state
-
-    C - Place Cannon'
+    G - Game state'
 --- !u!222 &1359765476
 CanvasRenderer:
   m_ObjectHideFlags: 0
