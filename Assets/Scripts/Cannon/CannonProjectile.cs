@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
     namespace Rampart.Remake { 
 
@@ -47,9 +48,9 @@
         }
 
         void LaunchCannonProjectile() {
-            // TODO: implement network projectile launch
-            Rigidbody cannonProjectileGO = Instantiate(_cannonProjectilePrefab, _shootPoint.position, Quaternion.identity);
-            cannonProjectileGO.velocity = _initVelocity;
+            GameObject cannonProjectileGO = PhotonNetwork.Instantiate("Prefabs/GroundPlaceableObjects/Cannon/CannonProjectile", _shootPoint.position, Quaternion.identity);
+            Rigidbody cannonProjectileRB = cannonProjectileGO.GetComponent<Rigidbody>();
+            cannonProjectileRB.velocity = _initVelocity;
         }
 
         Vector3 CalculateVelocity(Vector3 target, Vector3 origin, float time) {
