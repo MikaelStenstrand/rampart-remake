@@ -1333,12 +1333,12 @@ MonoBehaviour:
   _placeableObjectPrefabs:
   - {fileID: 162, guid: 2a85ffcebc81d4c3eb1387dd6c08e573, type: 3}
   - {fileID: 163, guid: 0b10a9c3187e6462a8fad10d65f71821, type: 3}
-  - {fileID: 163, guid: 848d42afcc1354bc1890d99072784fbd, type: 3}
+  - {fileID: 180, guid: 848d42afcc1354bc1890d99072784fbd, type: 3}
   - {fileID: 163, guid: 923691af9da434054b6ef582c5be1bad, type: 3}
   - {fileID: 181, guid: 232a9b0551e1c4635a52a8855a9ee264, type: 3}
-  - {fileID: 163, guid: 7a9badbf4643f441790779686cbc2ee0, type: 3}
+  - {fileID: 179, guid: 7a9badbf4643f441790779686cbc2ee0, type: 3}
   - {fileID: 163, guid: ff8974c10e3314d089e0f285be49299f, type: 3}
-  _cannonPrefab: {fileID: 349, guid: 4a6643d8ab38349809d8069fe720888d, type: 3}
+  _cannonPrefab: {fileID: 190, guid: 4a6643d8ab38349809d8069fe720888d, type: 3}
   _newCannonHotkey: 99
   _rotateHotkey: 114
   _environmentLayerMask:
