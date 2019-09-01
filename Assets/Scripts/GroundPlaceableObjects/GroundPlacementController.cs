@@ -65,7 +65,6 @@ namespace Rampart.Remake {
                 Destroy(_currentPlaceableObject);
                 _currentPlaceableObject = null;
                 _currentPrefabIndex = -1;
-                _currentObjectRotation = 0;
             }
         }
 
