@@ -1338,6 +1338,7 @@ MonoBehaviour:
   - {fileID: 181, guid: 232a9b0551e1c4635a52a8855a9ee264, type: 3}
   - {fileID: 179, guid: 7a9badbf4643f441790779686cbc2ee0, type: 3}
   - {fileID: 163, guid: ff8974c10e3314d089e0f285be49299f, type: 3}
+  - {fileID: 162, guid: 0c3d227c8e0444ea29adcdd21f8b8d27, type: 3}
   _cannonPrefab: {fileID: 190, guid: 4a6643d8ab38349809d8069fe720888d, type: 3}
   _newCannonHotkey: 99
   _rotateHotkey: 114
