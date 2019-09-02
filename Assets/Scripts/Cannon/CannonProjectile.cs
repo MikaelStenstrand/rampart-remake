@@ -1,8 +1,9 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 
-    namespace Rampart.Remake { 
+namespace Rampart.Remake { 
 
+    [RequireComponent(typeof(PhotonView))]
     public class CannonProjectile : MonoBehaviour {
 
         [SerializeField]
@@ -20,14 +21,16 @@ using UnityEngine;
         Camera _camera;
         Vector3 _initVelocity;
         GameManager gameManager;
+        PhotonView _photonView;
 
         void Start() {
             _camera = Camera.main;
             gameManager = GameManager.instance;
+            _photonView = gameObject.GetComponent<PhotonView>();
         }
 
         void Update() {
-            if (gameManager.GetGameMode() == GameMode.ATTACK) {
+            if (gameManager.GetGameMode() == GameMode.ATTACK && _photonView.IsMine) {
                 this.AimAtCursor();
 
                 if (Input.GetMouseButtonDown(0)) {
@@ -47,10 +50,19 @@ using UnityEngine;
             } 
         }
 
+        /*
+         * Instantiate projectile over the network
+         */
         void LaunchCannonProjectile() {
-            GameObject cannonProjectileGO = PhotonNetwork.Instantiate("Prefabs/GroundPlaceableObjects/Cannon/CannonProjectile", _shootPoint.position, Quaternion.identity);
-            Rigidbody cannonProjectileRB = cannonProjectileGO.GetComponent<Rigidbody>();
-            cannonProjectileRB.velocity = _initVelocity;
+            GameObject GO = PhotonNetwork.Instantiate("Prefabs/GroundPlaceableObjects/Cannon/CannonProjectile", _shootPoint.position, Quaternion.identity);
+            Rigidbody cannonProjectileRB = GO.GetComponent<Rigidbody>();
+            GroundPlaceableObject cannonProjectileGPO = GO.GetComponent<GroundPlaceableObject>();
+            if (cannonProjectileRB != null) {
+                cannonProjectileRB.velocity = _initVelocity;
+            }
+            if (cannonProjectileGPO) {
+                cannonProjectileGPO.ChangeObjectColorToPlayerColorOverNetwork();
+            }
         }
 
         Vector3 CalculateVelocity(Vector3 target, Vector3 origin, float time) {
