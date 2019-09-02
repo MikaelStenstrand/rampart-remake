@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Photon.Pun;
 using UnityEngine;
 
 public class DestroyAfterTime : MonoBehaviour {
@@ -8,6 +7,14 @@ public class DestroyAfterTime : MonoBehaviour {
     float _lifetime = 5.0f;
 
     void Awake() {
-        Destroy(gameObject, _lifetime);
+        if (PhotonNetwork.IsConnected) {
+            Invoke("DestroyNetworkObject", _lifetime);
+        } else {
+            Destroy(gameObject, _lifetime);
+        }
+    }
+
+    void DestroyNetworkObject() {
+        PhotonNetwork.Destroy(this.gameObject);
     }
 }
