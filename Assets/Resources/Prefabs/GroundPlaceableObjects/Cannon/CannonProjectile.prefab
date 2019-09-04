@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 556}
   - component: {fileID: 753}
   - component: {fileID: 678}
-  - component: {fileID: 841}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -109,19 +108,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &841
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 348}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &357
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,9 +122,10 @@ GameObject:
   - component: {fileID: 934}
   - component: {fileID: 797}
   - component: {fileID: 6973302612862443708}
+  - component: {fileID: 7761848636091087971}
   m_Layer: 0
   m_Name: CannonProjectile
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -239,6 +226,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lifetime: 5
+--- !u!135 &7761848636091087971
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &358
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,7 +282,6 @@ GameObject:
   - component: {fileID: 589}
   - component: {fileID: 769}
   - component: {fileID: 668}
-  - component: {fileID: 846}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -349,17 +348,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &846
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 367}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}

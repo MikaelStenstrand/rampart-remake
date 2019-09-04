@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1017657046990382004}
   - component: {fileID: 7734381597851086079}
   - component: {fileID: 3880152942273576920}
+  - component: {fileID: 2426024948473079984}
   m_Layer: 0
   m_Name: TetrisPiece
   m_TagString: GroundPlaceableObject
@@ -91,3 +92,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.95, y: 1, z: 0.95}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2426024948473079984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2178433771942421091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 463e6076e79dc4244a4ad67e807e252b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionTag: Bullet

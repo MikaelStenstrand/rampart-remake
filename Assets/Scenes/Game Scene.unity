@@ -1345,7 +1345,7 @@ MonoBehaviour:
   _environmentLayerMask:
     serializedVersion: 2
     m_Bits: 512
-  _randomizePieces: 1
+  _randomizePieces: 0
 --- !u!156049354 &1894274260
 Grid:
   m_ObjectHideFlags: 0
