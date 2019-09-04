@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Rampart.Remake { 
 
     [RequireComponent(typeof(PhotonView))]
-    public class CannonProjectile : MonoBehaviour {
+    public class CannonProjectileController : MonoBehaviour {
 
         [SerializeField]
         Rigidbody _cannonProjectilePrefab;
@@ -30,11 +30,15 @@ namespace Rampart.Remake {
         }
 
         void Update() {
-            if (gameManager.GetGameMode() == GameMode.ATTACK && _photonView.IsMine) {
+            if (gameManager.GetGameMode() == GameMode.ATTACK && (_photonView.IsMine || !PhotonNetwork.IsConnected)) {
                 this.AimAtCursor();
 
                 if (Input.GetMouseButtonDown(0)) {
-                    this.LaunchCannonProjectile();
+                    if (PhotonNetwork.IsConnected) {
+                        this.LaunchCannonProjectile();
+                    } else {
+                        this.LaunchCannonProjectileOffline();
+                    }
                 }
             }
 
@@ -64,6 +68,13 @@ namespace Rampart.Remake {
                 cannonProjectileGPO.ChangeObjectColorToPlayerColorOverNetwork();
             }
         }
+
+        void LaunchCannonProjectileOffline() {
+            GameObject cannonProjectileGO = PhotonNetwork.Instantiate("Prefabs/GroundPlaceableObjects/Cannon/CannonProjectile", _shootPoint.position, Quaternion.identity);
+            Rigidbody cannonProjectileRB = cannonProjectileGO.GetComponent<Rigidbody>();
+            cannonProjectileRB.velocity = _initVelocity;
+        }
+
 
         Vector3 CalculateVelocity(Vector3 target, Vector3 origin, float time) {
 
