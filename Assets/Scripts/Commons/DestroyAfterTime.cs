@@ -2,14 +2,16 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class DestroyAfterTime : MonoBehaviour {
+public class DestroyAfterTime : MonoBehaviourPun {
 
     [SerializeField]
     float _lifetime = 5.0f;
 
     void Awake() {
         if (PhotonNetwork.IsConnected) {
-            StartCoroutine(DestroyNetworkObject());
+            if (photonView.IsMine) { 
+                StartCoroutine(DestroyNetworkObject());
+            }
         } else {
             Destroy(gameObject, _lifetime);
         }

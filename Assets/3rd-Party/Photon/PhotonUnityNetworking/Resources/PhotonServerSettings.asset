@@ -34,5 +34,7 @@ MonoBehaviour:
   - RespawnSpaceship
   - ChangeObjectColorToPlayerColorOverNetwork
   - RPCChangeObjectColorToPlayerColor
+  - DestroyWallPieceRPC
+  - DestroyRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
