@@ -194,7 +194,7 @@ GameObject:
   m_Component:
   - component: {fileID: 417}
   - component: {fileID: 900}
-  - component: {fileID: 897}
+  - component: {fileID: 896}
   - component: {fileID: 895}
   - component: {fileID: 901}
   m_Layer: 0
@@ -235,7 +235,7 @@ MonoBehaviour:
   _playerSettings: {fileID: 11400000, guid: aa1b7fc94df664a9a9c729abf4e67ba5, type: 2}
   Filename: Prefabs/GroundPlaceableObjects/Cannon/Cannon
   isPlaceable: 1
---- !u!114 &897
+--- !u!114 &896
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
