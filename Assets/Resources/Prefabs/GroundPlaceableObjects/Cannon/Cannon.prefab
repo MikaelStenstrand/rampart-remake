@@ -193,10 +193,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 417}
-  - component: {fileID: 902}
-  - component: {fileID: 901}
   - component: {fileID: 900}
-  - component: {fileID: 906}
+  - component: {fileID: 899}
+  - component: {fileID: 898}
+  - component: {fileID: 902}
   m_Layer: 0
   m_Name: Cannon
   m_TagString: Untagged
@@ -220,7 +220,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &902
+--- !u!114 &900
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -235,7 +235,7 @@ MonoBehaviour:
   _playerSettings: {fileID: 11400000, guid: aa1b7fc94df664a9a9c729abf4e67ba5, type: 2}
   Filename: Prefabs/GroundPlaceableObjects/Cannon/Cannon
   isPlaceable: 1
---- !u!114 &901
+--- !u!114 &899
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -253,11 +253,11 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 900}
+  - {fileID: 898}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &900
+--- !u!114 &898
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -272,7 +272,7 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
---- !u!114 &906
+--- !u!114 &902
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

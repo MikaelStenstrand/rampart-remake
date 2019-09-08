@@ -49,18 +49,18 @@ namespace Rampart.Remake {
         }
 
         void LaunchCannonProjectile() {
-            this.LaunchCannonProjectileLocally(_shootPoint.position, _initVelocity);
+            this.LaunchCannonProjectileLocally(_shootPoint.position, _initVelocity, PhotonNetwork.LocalPlayer);
             if (PhotonNetwork.IsConnected && photonView.IsMine) {
                 photonView.RPC("LaunchCannonProjectileRPC", RpcTarget.Others, _shootPoint.position, _initVelocity);
             }
         }
 
         [PunRPC]
-        void LaunchCannonProjectileRPC(Vector3 shootPointPosition, Vector3 initVelocity) {
-            LaunchCannonProjectileLocally(shootPointPosition, initVelocity);
+        void LaunchCannonProjectileRPC(Vector3 shootPointPosition, Vector3 initVelocity, PhotonMessageInfo info) {
+            LaunchCannonProjectileLocally(shootPointPosition, initVelocity, info.Sender);
         }
 
-        void LaunchCannonProjectileLocally(Vector3 shootPointPosition, Vector3 initVelocity) {
+        void LaunchCannonProjectileLocally(Vector3 shootPointPosition, Vector3 initVelocity, Photon.Realtime.Player player) {
             GameObject GO = Instantiate(_cannonProjectilePrefab, shootPointPosition, Quaternion.identity);
             Rigidbody cannonProjectileRB = GO.GetComponent<Rigidbody>();
             if (cannonProjectileRB != null) {
@@ -68,14 +68,11 @@ namespace Rampart.Remake {
             }
             GroundPlaceableObject cannonProjectileGPO = GO.GetComponent<GroundPlaceableObject>();
             if (cannonProjectileGPO != null) {
-                cannonProjectileGPO.ChangeObjectColorToPlayerColor();
+                cannonProjectileGPO.ChangeObjectColorToPlayerColor(player);
             }
-
         }
 
-
         Vector3 CalculateVelocity(Vector3 target, Vector3 origin, float time) {
-
             Vector3 distance = target - origin;
             Vector3 distanceXZ = distance;
             distanceXZ.y = 0f;

@@ -95,7 +95,7 @@ namespace Rampart.Remake {
             GameObject GO = Instantiate(prefab);
             GroundPlaceableObject placedObject = GO.GetComponent<GroundPlaceableObject>();
             if (placedObject != null) {
-                placedObject.ChangeObjectColorToPlayerColor();
+                placedObject.ChangeObjectColorToLocalPlayerColor();
             }
             return GO;
         }

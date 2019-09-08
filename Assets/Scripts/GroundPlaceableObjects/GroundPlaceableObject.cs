@@ -27,10 +27,18 @@ namespace Rampart.Remake {
          * -- etc.
          * -- etc.
          */
-        public void ChangeObjectColorToPlayerColor() {
+        public void ChangeObjectColorToLocalPlayerColor() {
             Component[] renderers = gameObject.transform.GetChild(0).GetChild(0).gameObject.GetComponentsInChildren<MeshRenderer>();
             foreach (MeshRenderer renderer in renderers) {
-                Color color = (Color)_playerSettings.GetLocalPlayerColor();
+                Color color = (Color)_playerSettings.GetLocalPlayerColor(); // TODO: change before foreach
+                renderer.material.color = color;
+            }
+        }
+
+        public void ChangeObjectColorToPlayerColor(Photon.Realtime.Player player) {
+            Component[] renderers = gameObject.transform.GetChild(0).GetChild(0).gameObject.GetComponentsInChildren<MeshRenderer>();
+            Color color = _playerSettings.GetPlayerColor(player);
+            foreach (MeshRenderer renderer in renderers) {
                 renderer.material.color = color;
             }
         }
