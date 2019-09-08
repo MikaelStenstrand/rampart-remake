@@ -66,9 +66,9 @@ namespace Rampart.Remake {
             if (cannonProjectileRB != null) {
                 cannonProjectileRB.velocity = initVelocity;
             }
-            GroundPlaceableObject cannonProjectileGPO = GO.GetComponent<GroundPlaceableObject>();
-            if (cannonProjectileGPO != null) {
-                cannonProjectileGPO.ChangeObjectColorToPlayerColor(player);
+            ColorChanger colorChanger = GO.GetComponent<ColorChanger>();
+            if (colorChanger != null) {
+                colorChanger.ChangeObjectColorToPlayerColor(player);
             }
         }
 

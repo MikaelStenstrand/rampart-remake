@@ -203,6 +203,7 @@ GameObject:
   - component: {fileID: 651}
   - component: {fileID: 596}
   - component: {fileID: 4799080626291311465}
+  - component: {fileID: 8672891608746507623}
   m_Layer: 0
   m_Name: Wall-O
   m_TagString: GroundPlaceableObject
@@ -274,7 +275,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2081c11752e5c40abbab36ed7f352b4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerSettings: {fileID: 11400000, guid: aa1b7fc94df664a9a9c729abf4e67ba5, type: 2}
   Filename: Prefabs/GroundPlaceableObjects/Walls/Wall-O
   isPlaceable: 1
 --- !u!54 &596
@@ -305,6 +305,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d7baca0ddbef4a59a5a9ca9bf90f7a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8672891608746507623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 442a0d133689e47f1af9a397eba76323, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerSettings: {fileID: 11400000, guid: aa1b7fc94df664a9a9c729abf4e67ba5, type: 2}
 --- !u!1001 &2103697260187298717
 PrefabInstance:
   m_ObjectHideFlags: 0
