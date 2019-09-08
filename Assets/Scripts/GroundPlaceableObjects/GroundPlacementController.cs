@@ -4,6 +4,7 @@ using UnityEngine;
 namespace Rampart.Remake {
 
     [RequireComponent(typeof(GridLayout))]
+    [RequireComponent(typeof(CannonController))]
     public class GroundPlacementController : MonoBehaviour {
 
         [SerializeField]
@@ -24,6 +25,8 @@ namespace Rampart.Remake {
         [SerializeField]
         bool _randomizePieces = true;
 
+
+        CannonController _cannonController;
         GameObject _currentPlaceableObject;
         int _currentPrefabIndex = -1;
         float _currentObjectRotation = 0;
@@ -35,6 +38,7 @@ namespace Rampart.Remake {
         void Awake() {
             _gridLayout = GetComponent<GridLayout>();
             _gameManager = GameManager.instance;
+            _cannonController = gameObject.GetComponent<CannonController>();
         }
 
         void Update() {
@@ -106,6 +110,11 @@ namespace Rampart.Remake {
             if (placedObject != null) {
                 placedObject.ChangeObjectColorToPlayerColorOverNetwork();
             }
+
+            if (_gameManager.GetGameMode() == GameMode.PLACE_CANNON) {
+                _cannonController.AddCannon(GO.GetComponent<Cannon>());
+            }
+
         }
 
         void InstantiateObjectFollowMouse(GameObject GO) {
