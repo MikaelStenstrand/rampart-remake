@@ -4,10 +4,10 @@ using UnityEngine;
 namespace Rampart.Remake { 
 
     [RequireComponent(typeof(PhotonView))]
-    public class CannonProjectileController : MonoBehaviour {
+    public class CannonProjectileController : MonoBehaviourPun {
 
         [SerializeField]
-        Rigidbody _cannonProjectilePrefab;
+        GameObject _cannonProjectilePrefab;
 
         [SerializeField]
         Transform _shootPoint;
@@ -21,24 +21,18 @@ namespace Rampart.Remake {
         Camera _camera;
         Vector3 _initVelocity;
         GameManager gameManager;
-        PhotonView _photonView;
 
         void Start() {
             _camera = Camera.main;
             gameManager = GameManager.instance;
-            _photonView = gameObject.GetComponent<PhotonView>();
         }
 
         void Update() {
-            if (gameManager.GetGameMode() == GameMode.ATTACK && (_photonView.IsMine || !PhotonNetwork.IsConnected)) {
+            if (gameManager.GetGameMode() == GameMode.ATTACK && (photonView.IsMine || !PhotonNetwork.IsConnected)) {
                 this.AimAtCursor();
 
                 if (Input.GetMouseButtonDown(0)) {
-                    if (PhotonNetwork.IsConnected) {
-                        this.LaunchCannonProjectile();
-                    } else {
-                        this.LaunchCannonProjectileOffline();
-                    }
+                    this.LaunchCannonProjectile();
                 }
             }
 
@@ -54,25 +48,29 @@ namespace Rampart.Remake {
             } 
         }
 
-        /*
-         * Instantiate projectile over the network
-         */
         void LaunchCannonProjectile() {
-            GameObject GO = PhotonNetwork.Instantiate("Prefabs/GroundPlaceableObjects/Cannon/CannonProjectile", _shootPoint.position, Quaternion.identity);
-            Rigidbody cannonProjectileRB = GO.GetComponent<Rigidbody>();
-            GroundPlaceableObject cannonProjectileGPO = GO.GetComponent<GroundPlaceableObject>();
-            if (cannonProjectileRB != null) {
-                cannonProjectileRB.velocity = _initVelocity;
-            }
-            if (cannonProjectileGPO) {
-                cannonProjectileGPO.ChangeObjectColorToPlayerColorOverNetwork();
+            this.LaunchCannonProjectileLocally(_shootPoint.position, _initVelocity);
+            if (PhotonNetwork.IsConnected && photonView.IsMine) {
+                photonView.RPC("LaunchCannonProjectileRPC", RpcTarget.Others, _shootPoint.position, _initVelocity);
             }
         }
 
-        void LaunchCannonProjectileOffline() {
-            GameObject cannonProjectileGO = PhotonNetwork.Instantiate("Prefabs/GroundPlaceableObjects/Cannon/CannonProjectile", _shootPoint.position, Quaternion.identity);
-            Rigidbody cannonProjectileRB = cannonProjectileGO.GetComponent<Rigidbody>();
-            cannonProjectileRB.velocity = _initVelocity;
+        [PunRPC]
+        void LaunchCannonProjectileRPC(Vector3 shootPointPosition, Vector3 initVelocity) {
+            LaunchCannonProjectileLocally(shootPointPosition, initVelocity);
+        }
+
+        void LaunchCannonProjectileLocally(Vector3 shootPointPosition, Vector3 initVelocity) {
+            GameObject GO = Instantiate(_cannonProjectilePrefab, shootPointPosition, Quaternion.identity);
+            Rigidbody cannonProjectileRB = GO.GetComponent<Rigidbody>();
+            if (cannonProjectileRB != null) {
+                cannonProjectileRB.velocity = initVelocity;
+            }
+            GroundPlaceableObject cannonProjectileGPO = GO.GetComponent<GroundPlaceableObject>();
+            if (cannonProjectileGPO != null) {
+                cannonProjectileGPO.ChangeObjectColorToPlayerColor();
+            }
+
         }
 
 

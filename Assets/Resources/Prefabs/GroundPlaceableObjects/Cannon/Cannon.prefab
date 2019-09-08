@@ -284,7 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8df77a899d202432782bb671c9ea6642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cannonProjectilePrefab: {fileID: 797, guid: faebe1509e330421d972c34bd5b888b4, type: 3}
+  _cannonProjectilePrefab: {fileID: 200, guid: faebe1509e330421d972c34bd5b888b4, type: 3}
   _shootPoint: {fileID: 416}
   _layerMask:
     serializedVersion: 2

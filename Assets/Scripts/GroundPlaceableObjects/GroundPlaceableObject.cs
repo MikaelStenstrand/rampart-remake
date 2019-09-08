@@ -2,14 +2,13 @@
 using UnityEngine;
 
 namespace Rampart.Remake {
-    public class GroundPlaceableObject : MonoBehaviour {
+    public class GroundPlaceableObject : MonoBehaviourPun {
 
         [SerializeField]
         PlayerSettings _playerSettings;
 
         public string Filename;
 
-        PhotonView _photonView;
         Color _defaultColor;
 
         [HideInInspector]
@@ -17,7 +16,6 @@ namespace Rampart.Remake {
         static string Tag = "GroundPlaceableObject";
 
         void Awake() {
-            _photonView = gameObject.GetComponent<PhotonView>();
             _defaultColor = gameObject.transform.GetChild(0).GetChild(1).gameObject.GetComponentsInChildren<MeshRenderer>()[0].material.color;
         }
 
@@ -39,7 +37,7 @@ namespace Rampart.Remake {
 
         public void ChangeObjectColorToPlayerColorOverNetwork() {
             if (PhotonNetwork.IsConnected)
-                _photonView.RPC("RPCChangeObjectColorToPlayerColor", RpcTarget.All);
+                photonView.RPC("RPCChangeObjectColorToPlayerColor", RpcTarget.All);
         }
 
         [PunRPC]
