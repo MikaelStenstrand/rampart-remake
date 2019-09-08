@@ -29,8 +29,8 @@ namespace Rampart.Remake {
          */
         public void ChangeObjectColorToLocalPlayerColor() {
             Component[] renderers = gameObject.transform.GetChild(0).GetChild(0).gameObject.GetComponentsInChildren<MeshRenderer>();
+            Color color = (Color)_playerSettings.GetLocalPlayerColor();
             foreach (MeshRenderer renderer in renderers) {
-                Color color = (Color)_playerSettings.GetLocalPlayerColor(); // TODO: change before foreach
                 renderer.material.color = color;
             }
         }

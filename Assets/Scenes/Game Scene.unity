@@ -1331,7 +1331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _placeableObjectPrefabs:
-  - {fileID: 182, guid: 2a85ffcebc81d4c3eb1387dd6c08e573, type: 3}
+  - {fileID: 184, guid: 2a85ffcebc81d4c3eb1387dd6c08e573, type: 3}
   - {fileID: 174, guid: 0b10a9c3187e6462a8fad10d65f71821, type: 3}
   - {fileID: 186, guid: 848d42afcc1354bc1890d99072784fbd, type: 3}
   - {fileID: 163, guid: 923691af9da434054b6ef582c5be1bad, type: 3}

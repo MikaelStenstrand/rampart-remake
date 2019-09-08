@@ -194,9 +194,9 @@ GameObject:
   m_Component:
   - component: {fileID: 417}
   - component: {fileID: 900}
-  - component: {fileID: 899}
-  - component: {fileID: 898}
-  - component: {fileID: 902}
+  - component: {fileID: 897}
+  - component: {fileID: 895}
+  - component: {fileID: 901}
   m_Layer: 0
   m_Name: Cannon
   m_TagString: Untagged
@@ -235,7 +235,7 @@ MonoBehaviour:
   _playerSettings: {fileID: 11400000, guid: aa1b7fc94df664a9a9c729abf4e67ba5, type: 2}
   Filename: Prefabs/GroundPlaceableObjects/Cannon/Cannon
   isPlaceable: 1
---- !u!114 &899
+--- !u!114 &897
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -253,11 +253,11 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 898}
+  - {fileID: 895}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &898
+--- !u!114 &895
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -272,7 +272,7 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
---- !u!114 &902
+--- !u!114 &901
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
