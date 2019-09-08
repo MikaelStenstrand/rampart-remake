@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Basic Cannon
   m_EditorClassIdentifier: 
   CannonName: Basic Cannon
-  CannonPrefab: {fileID: 195, guid: 4a6643d8ab38349809d8069fe720888d, type: 3}
+  CoolDown: 3
   ProjectilePrefab: {fileID: 200, guid: faebe1509e330421d972c34bd5b888b4, type: 3}
   ProjectileTravelTime: 1.5

@@ -5,7 +5,6 @@ namespace Rampart.Remake {
 
     public class CannonController : MonoBehaviour {
 
-
         [SerializeField]
         LayerMask _layerMask;
 
@@ -25,7 +24,7 @@ namespace Rampart.Remake {
                 this.AimAtCursor();
 
                 if (Input.GetMouseButtonDown(0)) {
-                    this.Shoot();
+                    this.FireCannon();
                 }
             }
         }
@@ -42,18 +41,19 @@ namespace Rampart.Remake {
             }
         }
 
-
-        // shoot available cannon to the aimed location.
-        void Shoot() {
-
+        void FireCannon() {
+            foreach(Cannon cannon in _playerCannons) {
+                if (cannon.IsAvailableToFire()) {
+                    cannon.Fire();
+                    return;
+                }
+            }
         }
 
         public void AddCannon(Cannon cannon) {
             _playerCannons.Add(cannon);
         }
 
+
     }
 }
-
-
-// TODO: photonView .isMine on cannons for aiming / shooting

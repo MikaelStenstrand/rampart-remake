@@ -6,23 +6,11 @@ namespace Rampart.Remake {
     public class CannonProperty : ScriptableObject {
 
         public string CannonName;
-        public GameObject CannonPrefab;
+        public float CoolDown;
 
-        // rotate speed
-        // Rate of fire
-        // description
-        // damange
-        // accuracy
-        // hit effect
-
+        // Projectile
         public GameObject ProjectilePrefab;
         public float ProjectileTravelTime;
-
-
-        // not currently
-
-
-
 
     }
 }
