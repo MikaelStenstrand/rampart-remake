@@ -30,6 +30,9 @@ using UnityEngine;
         }
 
         public void ChangeObjectColorToPlayerColor(Photon.Realtime.Player player) {
+            if (player == null) {
+                return;
+            }
             Component[] renderers = gameObject.transform.GetChild(0).GetChild(0).gameObject.GetComponentsInChildren<MeshRenderer>();
             Color color = _playerSettings.GetPlayerColor(player);
             foreach (MeshRenderer renderer in renderers) {

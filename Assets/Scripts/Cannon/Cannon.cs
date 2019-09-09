@@ -71,9 +71,15 @@ namespace Rampart.Remake {
         }
 
         public void Fire() {
-            if (PhotonNetwork.IsConnected && photonView.IsMine) {
+            if (PhotonNetwork.IsConnected) {
+                if (photonView.IsMine) {
+                    _nextTimeToFire = Time.time + _cannonProperty.CoolDown;
+                    this.LaunchCannonProjectile();
+                }
+            } else {
+                // Offline
                 _nextTimeToFire = Time.time + _cannonProperty.CoolDown;
-                this.LaunchCannonProjectile();
+                this.LaunchCannonProjectileLocally(_shootPoint.position, _initVelocity, null);
             }
         }
 
