@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 namespace Rampart.Remake { 
 
@@ -20,10 +21,17 @@ namespace Rampart.Remake {
 
         void Update() {
             this.DebugCheckGameModeChangeInput();
-            this.HandleGameModeIntervalUpdates();
+            if (PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient) {
+                this.HandleGameModeIntervalUpdates();
+            }
         }
 
+        public float GetTimeToNextGameMode() {
+            return _nextTimeToChangeGameMode - Time.time;
+        }
 
+        // TODO: RPC to update timer to all clients
+        // wall pieces bug into the floor...
         void HandleGameModeIntervalUpdates() {
             if (_gameManager.GetGameMode() == GameMode.BUILD) {
                 if (Time.time >= _nextTimeToChangeGameMode) {

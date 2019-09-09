@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 420}
   - component: {fileID: 696}
   - component: {fileID: 597}
-  - component: {fileID: 806}
+  - component: {fileID: 807}
   m_Layer: 0
   m_Name: PlayerColorIndicator
   m_TagString: Untagged
@@ -141,7 +141,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &806
+--- !u!65 &807
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -193,13 +193,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 417}
+  - component: {fileID: 903}
+  - component: {fileID: 901}
   - component: {fileID: 900}
-  - component: {fileID: 896}
-  - component: {fileID: 895}
-  - component: {fileID: 7665991150058208694}
-  - component: {fileID: 1663876564573581736}
-  - component: {fileID: 3940324337508497262}
-  - component: {fileID: 6260996735435070353}
+  - component: {fileID: 978}
+  - component: {fileID: 798}
+  - component: {fileID: 824}
+  - component: {fileID: 975}
   m_Layer: 0
   m_Name: BasicCannon
   m_TagString: GroundPlaceableObject
@@ -223,7 +223,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &900
+--- !u!114 &903
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Filename: Prefabs/GroundPlaceableObjects/Cannon/BasicCannon
   isPlaceable: 1
---- !u!114 &896
+--- !u!114 &901
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -255,11 +255,11 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 895}
+  - {fileID: 900}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &895
+--- !u!114 &900
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -274,7 +274,7 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
---- !u!114 &7665991150058208694
+--- !u!114 &978
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerSettings: {fileID: 11400000, guid: aa1b7fc94df664a9a9c729abf4e67ba5, type: 2}
---- !u!54 &1663876564573581736
+--- !u!54 &798
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -303,7 +303,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &3940324337508497262
+--- !u!65 &824
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -316,7 +316,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 2}
   m_Center: {x: 0, y: 1, z: 1}
---- !u!114 &6260996735435070353
+--- !u!114 &975
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -341,7 +341,7 @@ GameObject:
   - component: {fileID: 418}
   - component: {fileID: 694}
   - component: {fileID: 598}
-  - component: {fileID: 839}
+  - component: {fileID: 841}
   m_Layer: 0
   m_Name: CanonBase
   m_TagString: Untagged
@@ -409,7 +409,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &839
+--- !u!135 &841
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -433,7 +433,7 @@ GameObject:
   - component: {fileID: 419}
   - component: {fileID: 695}
   - component: {fileID: 599}
-  - component: {fileID: 842}
+  - component: {fileID: 844}
   m_Layer: 0
   m_Name: CanonPipe
   m_TagString: Untagged
@@ -500,7 +500,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &842
+--- !u!136 &844
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
