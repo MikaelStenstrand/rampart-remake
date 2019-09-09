@@ -13,7 +13,7 @@ namespace Rampart.Remake {
         Transform _shootPoint;
 
         Vector3 _initVelocity;
-        float _nextTimeToFire= 0.0f;
+        float _nextTimeToFire = 0.0f;
 
 
         public void RotateCannonTo(Vector3 targetPoint) {
